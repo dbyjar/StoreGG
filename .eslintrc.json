@@ -20,5 +20,29 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        ],
+        "react/function-component-definition": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-indent": "off",
+        "arrow-body-style": [
+            "error",
+            "always"
+        ],
+        "react/jsx-first-prop-new-line": "off",
+        "react/jsx-indent-props": "off",
+        "react/jsx-max-props-per-line": "off",
+        "react/no-unknown-property": "off",
+        "react/jsx-closing-tag-location": "off",
+        "react/jsx-closing-bracket-location": "off"
     }
 }
