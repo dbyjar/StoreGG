@@ -43,6 +43,10 @@
         "react/jsx-max-props-per-line": "off",
         "react/no-unknown-property": "off",
         "react/jsx-closing-tag-location": "off",
-        "react/jsx-closing-bracket-location": "off"
+        "react/jsx-closing-bracket-location": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "import/extensions": "off",
+        "import/no-unresolved": "off",
+        "semi": "off"
     }
 }
