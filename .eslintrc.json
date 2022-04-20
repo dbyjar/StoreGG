@@ -47,6 +47,7 @@
         "jsx-a11y/anchor-is-valid": "off",
         "import/extensions": "off",
         "import/no-unresolved": "off",
-        "semi": "off"
+        "semi": "off",
+        "no-trailing-spaces": "off"
     }
 }
