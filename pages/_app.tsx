@@ -5,6 +5,7 @@
 /* eslint-disable semi */
 import '../styles/homepage.css'
 import '../styles/utilities.css'
+import '../styles/detail.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 
@@ -25,7 +26,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
         {/* AOS Animation */}
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
         {/* Call Bootstrap JS */}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
