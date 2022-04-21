@@ -48,6 +48,7 @@
         "import/extensions": "off",
         "import/no-unresolved": "off",
         "semi": "off",
-        "no-trailing-spaces": "off"
+        "no-trailing-spaces": "off",
+        "jsx-a11y/label-has-associated-control": "off"
     }
 }
