@@ -6,13 +6,15 @@ interface menuItemProps {
   active?: boolean;
   icon: string;
   title: string;
+  href?: string;
 }
 
 export default function MenuItem(props: Partial<menuItemProps>) {
-  const { active, icon, title } = props
+  const {
+    active, icon, title, href = '/',
+  } = props
   const classMenu = cx({
-    // eslint-disable-next-line quote-props
-    'item': true,
+    item: true,
     'mb-30': true,
     active,
   });
@@ -23,7 +25,7 @@ export default function MenuItem(props: Partial<menuItemProps>) {
         <Image src={`/icon/icon-${icon}.svg`} width={25} height={25} alt={title} />
       </div>
       <p className="item-title m-0">
-        <Link href="/">
+        <Link href={href}>
           <a className="text-lg text-decoration-none">{title}</a>
         </Link>
       </p>
