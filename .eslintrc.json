@@ -49,6 +49,7 @@
         "import/no-unresolved": "off",
         "semi": "off",
         "no-trailing-spaces": "off",
-        "jsx-a11y/label-has-associated-control": "off"
+        "jsx-a11y/label-has-associated-control": "off",
+        "react/jsx-one-expression-per-line": "off"
     }
 }
