@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-interface inputProps {
+export interface inputProps {
   label: string;
   type: string;
   placeholder: string;
