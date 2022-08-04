@@ -50,6 +50,7 @@
         "semi": "off",
         "no-trailing-spaces": "off",
         "jsx-a11y/label-has-associated-control": "off",
-        "react/jsx-one-expression-per-line": "off"
+        "react/jsx-one-expression-per-line": "off",
+        "no-underscore-dangle": "off"
     }
 }
