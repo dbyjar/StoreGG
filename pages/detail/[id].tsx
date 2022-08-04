@@ -1,9 +1,21 @@
+import { useRouter } from 'next/router'
+import { useEffect } from 'react';
 import Footer from '../../components/organisms/footer';
 import Navbar from '../../components/organisms/navbar';
 import TopUpForm from '../../components/organisms/topUpForm';
 import TopUpItem from '../../components/organisms/topUpItem';
 
 export default function Detail() {
+  const { query, isReady } = useRouter()
+  
+  useEffect(() => {
+    if (isReady) {
+      console.log('ready', query)
+    } else {
+      console.log('is not ready')
+    }
+  }, [isReady])
+
   return (
     <>
         <Navbar />
