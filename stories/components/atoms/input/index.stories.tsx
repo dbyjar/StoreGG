@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable react/jsx-props-no-spreading */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Meta } from '@storybook/react';
@@ -8,12 +9,10 @@ export default {
   component: Input,
 } as Meta;
 
-const Template = (args: inputProps) => {
-  return <Input {...args} />
-};
+const Template = (args: inputProps) => <Input {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
   label: 'Nama Lengkap',
-  type: 'checkbox',
+  type: 'text',
 }
