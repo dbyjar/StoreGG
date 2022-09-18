@@ -18,3 +18,11 @@ export const getDetailVoucher = async (id: string) => {
 
   return data
 }
+
+export const getCategories = async () => {
+  const { data } = (
+    await axios.get(`${baseURL}/${prefixURL}/category`)
+  ).data ?? []
+
+  return data
+}

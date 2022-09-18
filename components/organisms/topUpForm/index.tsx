@@ -1,12 +1,12 @@
-import { Nominal, Payment, Bank } from '../../../services/data-types/index'
+import { Nominal, Payment } from '../../../services/data-types/index'
 import PaymentItem from './paymentItem';
 
-interface TopUpFormTypes {
-    nominal: any[];
-    payment: any[];
+interface TopUpFormProps {
+    nominal: Nominal[];
+    payment: Payment[];
 }
 
-export default function TopUpForm(props: TopUpFormTypes) {
+export default function TopUpForm(props: TopUpFormProps) {
   const { nominal, payment } = props;
   
   const onSubmit = (e: any) => {
@@ -29,7 +29,9 @@ export default function TopUpForm(props: TopUpFormTypes) {
             <div className="row justify-content-between">
 
                 {
-                    nominal.map((item: Nominal) => {
+                    nominal.map((item) => {
+                      const price = item.price.toLocaleString('id-ID')
+
                       return (
                             <label 
                                 className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
@@ -50,7 +52,7 @@ export default function TopUpForm(props: TopUpFormTypes) {
                                                 strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                     </div>
-                                    <p className="text-lg color-palette-1 m-0">Rp { item.price }</p>
+                                    <p className="text-lg color-palette-1 m-0">Rp { price }</p>
                                 </div>
                             </label>
                       );
@@ -68,9 +70,9 @@ export default function TopUpForm(props: TopUpFormTypes) {
                     {
                         // eslint-disable-next-line array-callback-return
                         // eslint-disable-next-line arrow-body-style
-                        payment.map((row: Payment) => row.banks.map((bank: Bank) => {
+                        payment.map((row) => row.banks.map((bank) => {
                           // eslint-disable-next-line max-len
-                          return <PaymentItem bankID={bank._id} type={row.type} name={bank.bankName} />
+                          return <PaymentItem key={bank._id} bankID={bank._id} type={row.type} name={bank.bankName} />
                         }))
                     }
 
