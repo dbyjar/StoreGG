@@ -46,6 +46,8 @@
     .sign-in input[type="email"]{
         max-width: 437px;
     }
-    }
+}
 
-/*  */
+section.sign-in {
+    overflow-x: hidden;
+}
