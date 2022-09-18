@@ -1,5 +1,3 @@
-'use-strict';
-
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable no-unreachable */
