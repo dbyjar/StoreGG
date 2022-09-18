@@ -4,29 +4,33 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react'
 
+import { ToastContainer, toast } from 'react-toastify'
+
 import { signUp } from '../services/service/auth'
-import { getCategories } from '../services/service/player'
+import { getCategories as getCategoriesAPI } from '../services/service/player'
 import { CategoryTypes } from '../services/data-types/index'
 
+import 'react-toastify/dist/ReactToastify.css'
+
 export default function SignUpPhoto() {
-  const [favorite, setFavorite] = useState('')
   const [image, setImage] = useState(null)
-  const [imagePreview, setImagePreview] = useState('/icon/upload.svg')
+  const [favorite, setFavorite] = useState('')
   const [dataCategory, setDataCategory] = useState([])
+  const [imagePreview, setImagePreview] = useState('/icon/upload.svg')
   const [currentValue, setCurrentValue] = useState({
     name: '',
     email: '',
   })
 
   const router = useRouter()
-  const _getCategories = useCallback(async () => {
-    const data = await getCategories()
+  const getCategories = useCallback(async () => {
+    const data = await getCategoriesAPI()
 
     setDataCategory(data)
     setFavorite(data[0]._id)
-  }, [getCategories])
+  }, [])
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const stateForm: any = {
       ...currentValue,
       favorite,
@@ -41,19 +45,26 @@ export default function SignUpPhoto() {
     data.append('password', stateForm.password);
     data.append('favorite', stateForm.favorite);
     data.append('image', stateForm.image);
-    data.append('phoneNumber', '098798876778');
+    data.append('phoneNumber', '089876543210');
     data.append('role', 'user');
 
-    signUp(data)
-    router.push('sign-up-success')
+    const response = await signUp(data)
+
+    if (response.errors) {
+      toast.error(response.message)
+    } else {
+      localStorage.removeItem('set-form-user');
+      toast.success('Register data is successfully');
+      router.push('sign-up-success');
+    }
   }
 
   useEffect(() => {
     const localValue = localStorage.getItem('set-form-user')
-    const JSONForm = JSON.parse(localValue ?? '')
+    const JSONForm = localValue ? JSON.parse(localValue) : ''
 
     setCurrentValue(JSONForm)
-    _getCategories()
+    getCategories()
   }, [])
 
   return (
@@ -122,6 +133,7 @@ export default function SignUpPhoto() {
                     </div>
                 </div>
             </form>
+            <ToastContainer />
         </div>
     </section>
   );
