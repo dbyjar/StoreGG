@@ -1,5 +1,5 @@
-import axios from 'axios'
 import baseURL from '../index'
+import baseAPIRequest from '../config';
 
 const prefixURL = 'api/auth'
 
@@ -8,22 +8,18 @@ interface signInTypes {
   password: string;
 }
 
-export const signUp = async (formData: any) => {
-  const { data } = await axios.post(`${baseURL}/${prefixURL}/signup`, formData)
-    .catch((error) => {
-      return error.response
-    })
-  
-  const responseData = data
-  return responseData?.errors ? responseData : responseData.data
+export const signUp = async (formData: FormData) => {
+  return baseAPIRequest({
+    url: `${baseURL}/${prefixURL}/signup`,
+    method: 'POST',
+    data: formData,
+  })
 }
 
 export const signIn = async (formData: signInTypes) => {
-  const data = await axios.post(`${baseURL}/${prefixURL}/signin`, formData)
-    .catch((error) => {
-      return error.response
-    })
-  
-  const responseData = data
-  return responseData.data
+  return baseAPIRequest({
+    url: `${baseURL}/${prefixURL}/signin`,
+    method: 'POST',
+    data: formData,
+  })
 }

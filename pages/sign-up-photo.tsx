@@ -48,14 +48,19 @@ export default function SignUpPhoto() {
     data.append('phoneNumber', '089876543210');
     data.append('role', 'user');
 
-    const response = await signUp(data)
-
-    if (response.errors) {
-      toast.error(response.message)
+    if (!currentValue.email) {
+      toast.error('email is required')
     } else {
-      localStorage.removeItem('set-form-user');
-      toast.success('Register data is successfully');
-      router.push('sign-up-success');
+      const response = await signUp(data)
+  
+      if (response.error) {
+        toast.error(response.message)
+      } else {
+        localStorage.removeItem('set-form-user');
+        toast.success('Register data is successfully');
+        
+        router.push('sign-up-success');
+      }
     }
   }
 

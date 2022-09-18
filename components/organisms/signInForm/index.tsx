@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
 
 import { signIn } from '../../../services/service/auth'
@@ -12,6 +13,8 @@ export default function SignInForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const router = useRouter()
+
   const onSubmit = async () => {
     const stateForm: any = {
       email, password,
@@ -22,13 +25,15 @@ export default function SignInForm() {
     } else {
       const response = await signIn(stateForm)
   
-      if (response?.message) {
-        toast.error(response?.message)
+      if (response.error) {
+        toast.error(response.message)
       } else {
         toast.success('Success Login')
 
         const token = response?.data?.token
         localStorage.setItem('storegg-token', token)
+
+        router.push('/')
       }
     }
   }
