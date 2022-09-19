@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
@@ -30,8 +31,12 @@ export default function SignInForm() {
       } else {
         toast.success('Success Login')
 
-        const token = response?.data?.token
-        localStorage.setItem('storegg-token', token)
+        const { token } = response.data
+        const uglyToken = btoa(token)
+
+        Cookies.set('uglyTokenGG', uglyToken, {
+          expires: 1,
+        })
 
         router.push('/')
       }
