@@ -1,11 +1,30 @@
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
-interface AuthProps {
-  isLogin?: boolean;
-}
+import Cookies from 'js-cookie'
+import jwtDecode from 'jwt-decode';
 
-export default function Auth(props: Partial<AuthProps>) {
-  const { isLogin } = props
+import baseURL from '../../../services/index'
+
+export default function Auth() {
+  const [isLogin, setIsLogin] = useState(false)
+  const [player, setPlayer] = useState({
+    avatar: '',
+    name: '',
+  })
+
+  useEffect(() => {
+    const uglyToken = Cookies.get('uglyTokenGG')
+    
+    if (uglyToken) {
+      const token = atob(uglyToken)
+      const user = jwtDecode(token)
+      const { player } = user
+
+      setIsLogin(true)
+      setPlayer(player)
+    }
+  }, [])
 
   if (isLogin) {
     return (
@@ -13,7 +32,13 @@ export default function Auth(props: Partial<AuthProps>) {
         <div className="vertical-line d-lg-block d-none" />
         <div>
           <a className="dropdown-toggle ms-lg-40" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="/img/avatar-1.png" className="rounded-circle" width="40" height="40" alt="" />
+            <img 
+              src={`${baseURL}/uploads/${player.avatar}`}
+              className="rounded-circle"
+              width="40"
+              height="40"
+              alt={player.name}
+            />
           </a>
           <ul className="dropdown-menu border-0" aria-labelledby="dropdownMenuLink">
             <li><Link href="/member"><a className="dropdown-item text-lg color-palette-2">My Profile</a></Link></li>
