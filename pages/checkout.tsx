@@ -1,9 +1,19 @@
 import Image from 'next/image';
-import CheckoutConfirmation from '../components/organisms/checkoutConfirmation';
-import CheckoutDetail from '../components/organisms/checkoutDetail';
-import CheckoutItem from '../components/organisms/checkoutItem';
+import jwtDecode from 'jwt-decode';
+import { useEffect, useState } from 'react';
 
-export default function Checkout() {
+import CheckoutItem from '../components/organisms/checkoutItem';
+import CheckoutDetail from '../components/organisms/checkoutDetail';
+import CheckoutConfirmation from '../components/organisms/checkoutConfirmation';
+
+export default function Checkout(props: any) {
+  const { player } = props
+  const [auth, setAuth] = useState({})
+
+  useEffect(() => {
+    setAuth(player)
+  }, [])
+
   return (
     <section className="checkout mx-auto pt-md-100 pb-md-145 pt-30 pb-30">
         <div className="container-fluid">
@@ -18,9 +28,32 @@ export default function Checkout() {
             </div>
             <CheckoutItem />
             <hr />
-            <CheckoutDetail />
+            <CheckoutDetail user={auth} />
             <CheckoutConfirmation />
         </div>
     </section>
   );
+}
+
+export async function getServerSideProps({ req }: any) {
+  const isLogin = req.cookies.uglyTokenGG
+
+  if (!isLogin) {
+    return {
+      redirect: {
+        destination: '/sign-in',
+        permanent: false,
+      },
+    }
+  }
+
+  const token = Buffer.from(isLogin, 'base64').toString('ascii')
+  const user: any = jwtDecode(token)
+  const dataPlayer = user.player
+
+  return {
+    props: {
+      player: dataPlayer,
+    },
+  }
 }
