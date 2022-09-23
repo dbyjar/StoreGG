@@ -26,6 +26,9 @@ export default function CheckoutConfirmation() {
     } else {
       toast.success('Success Checkout')
 
+      localStorage.removeItem('detailItem')
+      localStorage.removeItem('voucherDetail')
+
       router.push('/complete-checkout')
     }
   }
