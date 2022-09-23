@@ -9,8 +9,8 @@ export interface Nominal {
     coinQuantity: number;
     price: number;
     coinName: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
     __v: number;
 }
 

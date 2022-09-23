@@ -59,7 +59,7 @@ export default function SignUpPhoto() {
         localStorage.removeItem('set-form-user');
         toast.success('Register data is successfully');
         
-        router.push('sign-up-success');
+        router.push('sign-in');
       }
     }
   }
