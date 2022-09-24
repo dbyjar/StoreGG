@@ -2,11 +2,9 @@ import Link from 'next/link'
 import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 import { signIn } from '../../../services/service/auth'
-
-import 'react-toastify/dist/ReactToastify.css'
 
 export default function SignInForm() {
   const labelClassName = 'form-label text-lg fw-medium color-palette-1 mb-10'
@@ -81,7 +79,6 @@ export default function SignInForm() {
           </a>
         </Link>
       </div>
-      <ToastContainer />
     </>
   )
 }

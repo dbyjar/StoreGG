@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router';
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
+
 import { checkout } from '../../../services/service/player'
 
 export default function CheckoutConfirmation() {
@@ -57,7 +58,6 @@ export default function CheckoutConfirmation() {
           Confirm Payment
         </button>
       </div>
-      <ToastContainer />
     </>
   )
 }
