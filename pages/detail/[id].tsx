@@ -1,38 +1,14 @@
-import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react';
-import { getDetailVoucher } from '../../services/service/player'
+import { useEffect } from 'react';
 import Footer from '../../components/organisms/footer';
 import Navbar from '../../components/organisms/navbar';
 import TopUpForm from '../../components/organisms/topUpForm';
 import TopUpItem from '../../components/organisms/topUpItem';
+import { getDetailVoucher, getFeaturedGame } from '../../services/service/player'
 
-export default function Detail() {
-  const { query, isReady } = useRouter()
-  const [dataItem, setDataItem] = useState({
-    name: '',
-    thumbnail: '',
-    category: {
-      name: '',
-    },
-  })
-
-  const [dataNominal, setDataNominal] = useState([])
-  const [dataPayment, setDataPayment] = useState([])
-  
-  const fetchData = useCallback(async (id: any) => {
-    const { detail, payment } = await getDetailVoucher(id)
-
-    localStorage.setItem('voucherDetail', JSON.stringify(detail))
-    
-    setDataItem(detail)
-    setDataPayment(payment)
-    setDataNominal(detail.nominals)
-  }, [getDetailVoucher])
-
+export default function Detail({ dataItem, dataNominal, dataPayment }: any) {
   useEffect(() => {
-    if (isReady) fetchData(query.id)
-  }, [isReady])
-
+    localStorage.setItem('voucherDetail', JSON.stringify(dataItem))
+  }, [])
   return (
     <>
         <Navbar />
@@ -57,4 +33,39 @@ export default function Detail() {
         <Footer />
     </>
   );
+}
+
+export async function getStaticPaths() {
+  const data = await getFeaturedGame()
+  const paths = data.map((item: any) => {
+    return {
+      params: {
+        id: item._id,
+      },
+    }
+  })
+
+  return {
+    paths,
+    fallback: false,
+  }
+}
+
+interface GetStaticProps {
+  params: {
+    id: string
+  }
+}
+
+export async function getStaticProps({ params }: GetStaticProps) {
+  const { id } = params
+  const { detail, payment } = await getDetailVoucher(id)
+  
+  return {
+    props: {
+      dataItem: detail,
+      dataNominal: detail.nominals,
+      dataPayment: payment,
+    },
+  }
 }
