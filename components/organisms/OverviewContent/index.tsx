@@ -1,8 +1,45 @@
+import { useCallback, useEffect, useState } from 'react'
+import { getMemberOverview } from '../../../services/service/player'
+
 import Category from './category'
 import TableRow from './tableRow'
 
-/* eslint-disable react/jsx-one-expression-per-line */
+interface CategoryTypes {
+    _id: string
+    name: string
+    value: number
+}
+
+interface historyVoucherTopupTypes {
+    category: string
+    coinName: string
+    coinQuantity: string
+    gameName: string
+    price: number
+    thumbnail: string
+}
+
+interface dataTypes {
+    _id: string
+    value: number
+    status: any
+    historyVoucherTopup: historyVoucherTopupTypes
+}
+
 export default function OverviewContent() {
+  const [data, setData] = useState([])
+  const [category, setCategory] = useState([])
+
+  const fetchData = useCallback(async () => {
+    const response = await getMemberOverview()
+
+    setData(response?.data?.data)
+    setCategory(response?.data?.count)
+  }, [getMemberOverview])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
@@ -11,15 +48,19 @@ export default function OverviewContent() {
               <p className="text-lg fw-medium color-palette-1 mb-14">Top Up Categories</p>
               <div className="main-content">
                   <div className="row">
-                      <Category icon="category-1" nominal={18500000}>
-                          Game <br /> Desktop
-                      </Category>
-                      <Category icon="category-2" nominal={8455000}>
-                          Game <br /> Mobile
-                      </Category>
-                      <Category icon="category-1" nominal={5000000}>
-                          Other <br /> Categories
-                      </Category>
+                      {
+                        category.map((cat: CategoryTypes) => {
+                          return (
+                            <Category
+                                icon={cat.name === 'Mobile' ? 'category-2' : 'category-1'}
+                                nominal={cat.value}
+                                key={cat._id}
+                            >
+                                Game <br /> {cat.name}
+                            </Category>
+                          )
+                        })
+                      }
                   </div>
               </div>
           </div>
@@ -36,10 +77,21 @@ export default function OverviewContent() {
                           </tr>
                       </thead>
                       <tbody>
-                          <TableRow image="overview-1" title="Mobile Legends: The New Battle 2021" category="Mobile" value={200} nominal={740000} status="Success" /> 
-                          <TableRow image="overview-2" title="Call of Duty:Modern" category="Desktop" value={500} nominal={740000} status="Success" /> 
-                          <TableRow image="overview-3" title="Clash of Clans" category="Mobile" value={100} nominal={120000} status="Failed" /> 
-                          <TableRow image="overview-4" title="The Royal Game" category="Mobile" value={225} nominal={200000} status="Pending" /> 
+                          {
+                            data.map((row: dataTypes) => {
+                              return (
+                                <TableRow
+                                    key={row._id}
+                                    image={row.historyVoucherTopup.thumbnail}
+                                    title={row.historyVoucherTopup.gameName}
+                                    category={row.historyVoucherTopup.category}
+                                    value={row.historyVoucherTopup.coinQuantity}
+                                    nominal={row.value}
+                                    status={row.status}
+                                />
+                              )
+                            })
+                          }
                       </tbody>
                   </table>
               </div>

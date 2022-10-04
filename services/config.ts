@@ -3,14 +3,19 @@ import axios, { AxiosRequestConfig } from 'axios'
 
 interface baseAPIRequestTypes extends AxiosRequestConfig {
   token?: boolean
+  serverToken?: string
 }
 
 export default async function baseAPIRequest({
-  url, method, data, token,
+  url, method, data, token, serverToken,
 }: baseAPIRequestTypes) {
   let headers = {}
 
-  if (token) {
+  if (serverToken) {
+    headers = {
+      Authorization: `Bearer ${serverToken}`,
+    }
+  } else if (token) {
     const tokenCookies = Cookies.get('uglyTokenGG')
     
     if (tokenCookies) {
@@ -37,10 +42,14 @@ export default async function baseAPIRequest({
     return res
   }
 
+  const { length } = Object.keys(response.data)
+
   const res = {
     error: false,
     message: 'success',
-    data: response.data.data,
+    data: length > 1
+      ? response.data
+      : response.data.data,
   }
 
   return res

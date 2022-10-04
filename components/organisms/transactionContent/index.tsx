@@ -1,22 +1,63 @@
+import { useCallback, useEffect, useState } from 'react';
+import { getTransactionOverview } from '../../../services/service/player'
+
 import ButtonTab from './buttonTab';
 import TableRow from './tableRow';
 
+interface historyVoucherTopupTypes {
+    category: string
+    coinName: string
+    coinQuantity: string
+    gameName: string
+    price: number
+    thumbnail: string
+}
+
+interface dataTypes {
+    _id: string
+    value: number
+    status: any
+    historyVoucherTopup: historyVoucherTopupTypes
+}
+
 export default function TransactionContent() {
+  const [tab, setTab] = useState('all')
+  const [data, setData] = useState([])
+  const [spent, setSpent] = useState('0')
+
+  const fetchData = useCallback(async (params: string) => {
+    const response = await getTransactionOverview(params)
+
+    const spentValue = response.data.total.toLocaleString('id-ID')
+
+    setSpent(spentValue)
+    setData(response.data.data)
+  }, [getTransactionOverview])
+
+  const onTabChange = (val: string) => {
+    setTab(val)
+    fetchData(val)
+  }
+
+  useEffect(() => {
+    fetchData(tab)
+  }, [fetchData])
+
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
           <h2 className="text-4xl fw-bold color-palette-1 mb-30">My Transactions</h2>
           <div className="mb-30">
               <p className="text-lg color-palette-2 mb-12">You’ve spent</p>
-              <h3 className="text-5xl fw-medium color-palette-1">Rp 4.518.000.500</h3>
+              <h3 className="text-5xl fw-medium color-palette-1">Rp. {spent},-</h3>
           </div>
           <div className="row mt-30 mb-20">
               <div className="col-lg-12 col-12 main-content">
                   <div id="list_status_title">
-                    <ButtonTab title="All Trx" active />
-                    <ButtonTab title="Success" />
-                    <ButtonTab title="Pending" />
-                    <ButtonTab title="Failed" />
+                    <ButtonTab onClick={() => { onTabChange('all') }} title="All Trx" active={tab === 'all'} />
+                    <ButtonTab onClick={() => { onTabChange('success') }} title="Success" active={tab === 'success'} />
+                    <ButtonTab onClick={() => { onTabChange('pending') }} title="Pending" active={tab === 'pending'} />
+                    <ButtonTab onClick={() => { onTabChange('failed') }} title="Failed" active={tab === 'failed'} />
                   </div>
               </div>
           </div>
@@ -34,10 +75,22 @@ export default function TransactionContent() {
                           </tr>
                       </thead>
                       <tbody id="list_status_item">
-                        <TableRow image="overview-1" title="Mobile Legends: The New Battle 2021" category="Mobile" item={200} price={290000} status="Pending" />
-                        <TableRow image="overview-2" title="Call of Duty:Modern" category="Desktop" item={550} price={740000} status="Success" />
-                        <TableRow image="overview-3" title="Clash of Clans" category="Mobile" item={100} price={120000} status="Failed" />
-                        <TableRow image="overview-4" title="The Royal Game" category="Desktop" item={225} price={200000} status="Pending" />
+                        {
+                            data.map((row: dataTypes) => {
+                              return (
+                                <TableRow
+                                    id={row._id}
+                                    key={row._id}
+                                    price={row.value}
+                                    status={row.status}
+                                    title={row.historyVoucherTopup.gameName}
+                                    image={row.historyVoucherTopup.thumbnail}
+                                    category={row.historyVoucherTopup.category}
+                                    item={`${row.historyVoucherTopup.coinQuantity} ${row.historyVoucherTopup.coinName}`}
+                                />
+                              )
+                            })
+                        }
                       </tbody>
                   </table>
               </div>

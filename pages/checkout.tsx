@@ -35,7 +35,15 @@ export default function Checkout(props: any) {
   );
 }
 
-export async function getServerSideProps({ req }: any) {
+interface GetServerSideProps {
+  req: {
+    cookies: {
+      uglyTokenGG: string
+    }
+  }
+}
+
+export async function getServerSideProps({ req }: GetServerSideProps) {
   const isLogin = req.cookies.uglyTokenGG
 
   if (!isLogin) {

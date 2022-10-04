@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
+
 import Footer from './footer'
 import MenuItem from './menuItem'
 import Profile from './profile'
@@ -8,6 +11,13 @@ interface sidebarProps {
 
 export default function Sidebar(props: sidebarProps) {
   const { activeMenu } = props
+
+  const router = useRouter()
+  const onLogout = () => {
+    Cookies.remove('uglyTokenGG')
+
+    router.push('/')
+  }
   
   return (
     <section className="sidebar">
@@ -20,7 +30,7 @@ export default function Sidebar(props: sidebarProps) {
           <MenuItem title="Card" icon="card" />
           <MenuItem title="Rewards" icon="rewards" />
           <MenuItem title="Settings" icon="settings" href="/member/edit-profile" active={activeMenu === 'editProfile'} />
-          <MenuItem title="Log Out" icon="logout" href="/sign-in" />
+          <MenuItem title="Log Out" icon="logout" onClick={onLogout} />
         </div>
         <Footer />
       </div>

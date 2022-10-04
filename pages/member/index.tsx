@@ -10,3 +10,30 @@ export default function Member() {
     </section>
   );
 }
+
+interface GetServerSideProps {
+  req: {
+    cookies: {
+      uglyTokenGG: string
+    }
+  }
+}
+
+export async function getServerSideProps({ req }: GetServerSideProps) {
+  const isLogin = req.cookies.uglyTokenGG
+
+  if (!isLogin) {
+    return {
+      redirect: {
+        destination: '/sign-in',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {
+      token: true,
+    },
+  }
+}

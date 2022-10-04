@@ -7,11 +7,12 @@ interface menuItemProps {
   icon: string;
   title: string;
   href?: string;
+  onClick: () => void
 }
 
 export default function MenuItem(props: Partial<menuItemProps>) {
   const {
-    active, icon, title, href = '/',
+    active, icon, title, href = '/', onClick,
   } = props
   const classMenu = cx({
     item: true,
@@ -25,9 +26,16 @@ export default function MenuItem(props: Partial<menuItemProps>) {
         <Image src={`/icon/icon-${icon}.svg`} width={25} height={25} alt={title} />
       </div>
       <p className="item-title m-0">
-        <Link href={href}>
-          <a className="text-lg text-decoration-none">{title}</a>
-        </Link>
+        {
+          onClick
+            ? (
+              <a className="text-lg text-decoration-none" onClick={onClick}>{title}</a>
+            ) : (
+              <Link href={href}>
+                <a className="text-lg text-decoration-none">{title}</a>
+              </Link>
+            )
+        }
       </p>
     </div>
   )

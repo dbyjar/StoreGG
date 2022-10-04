@@ -9,6 +9,7 @@ interface CategoryProps {
 
 export default function Category(props: CategoryProps) {
   const { icon, nominal, children } = props
+  const formatNumber = nominal.toLocaleString('id-ID')
 
   return (
     <div className="col-lg-4 ps-15 pe-15 pb-lg-0 pb-4">
@@ -21,7 +22,7 @@ export default function Category(props: CategoryProps) {
           </div>
           <div>
               <p className="text-sm color-palette-2 mb-1">Total Spent</p>
-              <p className="text-2xl color-palette-1 fw-medium m-0">{nominal}</p>
+              <p className="text-2xl color-palette-1 fw-medium m-0">{formatNumber}</p>
           </div>
       </div>
   </div>
