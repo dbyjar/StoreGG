@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import { useEffect } from 'react';
 import AOS from 'aos';
+import Head from 'next/head';
 import Navbar from '../components/organisms/navbar';
 import MainBanner from '../components/organisms/mainBanner';
 import TransactionStep from '../components/organisms/transactionStep';
@@ -15,13 +16,16 @@ const Home: NextPage = () => {
   }, []);
   return (
     <>
-        <Navbar />
-        <MainBanner />
-        <TransactionStep />
-        <FeaturedGame />
-        <Reached />
-        <Story />
-        <Footer />
+      <Head>
+        <title>StoreGG - TopUp Website</title>
+      </Head>
+      <Navbar />
+      <MainBanner />
+      <TransactionStep />
+      <FeaturedGame />
+      <Reached />
+      <Story />
+      <Footer />
     </>
   );
 };
