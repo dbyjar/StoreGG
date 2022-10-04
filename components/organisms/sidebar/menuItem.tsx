@@ -29,7 +29,7 @@ export default function MenuItem(props: Partial<menuItemProps>) {
         {
           onClick
             ? (
-              <a className="text-lg text-decoration-none" onClick={onClick}>{title}</a>
+              <button type="button" className="text-lg text-decoration-none" onClick={onClick}>{title}</button>
             ) : (
               <Link href={href}>
                 <a className="text-lg text-decoration-none">{title}</a>

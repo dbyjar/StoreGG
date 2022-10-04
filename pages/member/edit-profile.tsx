@@ -20,7 +20,6 @@ export default function EditProfile() {
     avatar: '',
   })
 
-
   const router = useRouter()
   const onSubmit = async () => {
     const data = new FormData();
@@ -102,6 +101,7 @@ export default function EditProfile() {
                                 htmlFor="name"
                                 label="Full Name"
                                 value={player.name}
+                                placeholder="input name"
                                 onChange={(event: any) => {
                                   setPlayer({
                                     ...player,
@@ -116,6 +116,7 @@ export default function EditProfile() {
                                 type="email"
                                 htmlFor="email"
                                 label="Email Address"
+                                placeholder="input email"
                                 value={player.email}
                             />
                         </div>

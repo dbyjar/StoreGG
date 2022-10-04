@@ -1,5 +1,7 @@
+import { InputHTMLAttributes } from 'react';
+
 /* eslint-disable react/jsx-props-no-spreading */
-export interface inputProps {
+export interface inputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   type: string;
   placeholder: string;
